@@ -8,8 +8,8 @@ import {
 
 describe('Testing Async Proc', () => {
 
-    let proc1: TAsyncProc;
-    let proc2: TAsyncProc;
+    let proc1: TAsyncProc<string, string>;
+    let proc2: TAsyncProc<string, string>;
 
     it('create TAsyncProc with success callback', (jestDone) => {
         proc1 = new TAsyncProc((done) => {

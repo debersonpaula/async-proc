@@ -1,20 +1,20 @@
-type AsyncDone = (result: any) => void;
-type AsyncError = (error: any) => void;
+type AsyncDone<T> = (result: T) => void;
+type AsyncError<E> = (error: E) => void;
 type AsyncEnd = () => void;
-type AsyncProc = (done: AsyncDone, error: AsyncError) => void;
+type AsyncProc<T, E> = (done: AsyncDone<T>, error: AsyncError<E>) => void;
 
-export class TAsyncProc {
-    private _hDone: AsyncProc[] = [];
-    private _hError: AsyncProc[] = [];
-    private _hEnd: AsyncProc[] = [];
-    private _fnDone?: Function;
-    private _fnError?: Function;
+export class TAsyncProc<T = any, E = any> {
+    private _hDone: AsyncDone<T>[] = [];
+    private _hError: AsyncError<E>[] = [];
+    private _hEnd: AsyncEnd[] = [];
+    private _fnDone?: () => void;
+    private _fnError?: () => void;
 
     /**
      * Create TAsyncHandler to handle execution of async functions
      * @param {(done,error) => void} callback 
      */
-    constructor(callback: AsyncProc) {
+    constructor(callback: AsyncProc<T, E>) {
         callback && callback(this._done.bind(this), this._error.bind(this));
     }
 
@@ -22,7 +22,7 @@ export class TAsyncProc {
      * Executes the callback after successfull completions
      * @param callback 
      */
-    done(callback: AsyncDone): TAsyncProc {
+    done(callback: AsyncDone<T>): TAsyncProc<T, E> {
         this._hDone.push(callback);
         this._fnDone && this._fnDone();
         return this;
@@ -32,7 +32,7 @@ export class TAsyncProc {
      * Executes the callback after failed execution
      * @param callback 
      */
-    error(callback: AsyncError): TAsyncProc {
+    error(callback: AsyncError<E>): TAsyncProc<T, E> {
         this._hError.push(callback);
         this._fnError && this._fnError();
         return this;
@@ -42,7 +42,7 @@ export class TAsyncProc {
      * Executes the callback after execution (success or fail)
      * @param callback 
      */
-    end(callback: AsyncEnd): TAsyncProc {
+    end(callback: AsyncEnd): TAsyncProc<T, E> {
         this._hEnd.push(callback);
         this._fnDone && this._fnDone();
         this._fnError && this._fnError();
@@ -116,7 +116,7 @@ export function groupAsyncHandlers(list: TAsyncProc[]): TAsyncProc {
  * Convert Promise object to AsyncProc
  * @param promiseObject 
  */
-export function convertPromise(promiseObject: Promise<any>): TAsyncProc {
+export function convertPromise<T = any, E = any>(promiseObject: Promise<T>): TAsyncProc<T, E> {
     return new TAsyncProc((done, error) => {
         promiseObject
             .then(value => done(value))
@@ -128,8 +128,8 @@ export function convertPromise(promiseObject: Promise<any>): TAsyncProc {
  * Create AsyncProc with Done status
  * @param result object to be result of done
  */
-export function createDone(result: any) {
-    return new TAsyncProc((done, error) => {
+export function createDone<T = any>(result: T) {
+    return new TAsyncProc<T>((done, error) => {
         done(result);
     });
 }
@@ -138,8 +138,8 @@ export function createDone(result: any) {
  * Create AsyncProc with Error status
  * @param result object to be result of error
  */
-export function createError(result: any) {
-    return new TAsyncProc((done, error) => {
+export function createError<E = any>(result: E) {
+    return new TAsyncProc<any, E>((done, error) => {
         error(result);
     });
 }

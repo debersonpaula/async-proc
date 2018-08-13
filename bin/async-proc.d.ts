@@ -1,8 +1,8 @@
-declare type AsyncDone = (result: any) => void;
-declare type AsyncError = (error: any) => void;
+declare type AsyncDone<T> = (result: T) => void;
+declare type AsyncError<E> = (error: E) => void;
 declare type AsyncEnd = () => void;
-declare type AsyncProc = (done: AsyncDone, error: AsyncError) => void;
-export declare class TAsyncProc {
+declare type AsyncProc<T, E> = (done: AsyncDone<T>, error: AsyncError<E>) => void;
+export declare class TAsyncProc<T = any, E = any> {
     private _hDone;
     private _hError;
     private _hEnd;
@@ -12,22 +12,22 @@ export declare class TAsyncProc {
      * Create TAsyncHandler to handle execution of async functions
      * @param {(done,error) => void} callback
      */
-    constructor(callback: AsyncProc);
+    constructor(callback: AsyncProc<T, E>);
     /**
      * Executes the callback after successfull completions
      * @param callback
      */
-    done(callback: AsyncDone): TAsyncProc;
+    done(callback: AsyncDone<T>): TAsyncProc<T, E>;
     /**
      * Executes the callback after failed execution
      * @param callback
      */
-    error(callback: AsyncError): TAsyncProc;
+    error(callback: AsyncError<E>): TAsyncProc<T, E>;
     /**
      * Executes the callback after execution (success or fail)
      * @param callback
      */
-    end(callback: AsyncEnd): TAsyncProc;
+    end(callback: AsyncEnd): TAsyncProc<T, E>;
     private _done;
     private _error;
     private _exec;
@@ -41,15 +41,15 @@ export declare function groupAsyncHandlers(list: TAsyncProc[]): TAsyncProc;
  * Convert Promise object to AsyncProc
  * @param promiseObject
  */
-export declare function convertPromise(promiseObject: Promise<any>): TAsyncProc;
+export declare function convertPromise<T = any, E = any>(promiseObject: Promise<T>): TAsyncProc<T, E>;
 /**
  * Create AsyncProc with Done status
  * @param result object to be result of done
  */
-export declare function createDone(result: any): TAsyncProc;
+export declare function createDone<T = any>(result: T): TAsyncProc<T, any>;
 /**
  * Create AsyncProc with Error status
  * @param result object to be result of error
  */
-export declare function createError(result: any): TAsyncProc;
+export declare function createError<E = any>(result: E): TAsyncProc<any, E>;
 export {};
