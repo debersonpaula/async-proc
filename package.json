@@ -1,0 +1,15 @@
+{
+  "name": "async-proc",
+  "version": "0.0.1",
+  "description": "Async Handler Procedure",
+  "main": "index.js",
+  "scripts": {
+  },
+  "keywords": [
+    "async",
+    "promise",
+    "handler"
+  ],
+  "author": "D.A.Paula",
+  "license": "MIT"
+}
