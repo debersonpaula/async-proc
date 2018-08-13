@@ -1,4 +1,4 @@
-import { groupAsyncHandlers, TAsyncProc } from '../src/async-proc';
+import { TAsyncProc, groupAsyncHandlers, convertPromise } from '../src/async-proc';
 
 describe('Testing Async Proc', () => {
 
@@ -43,6 +43,26 @@ describe('Testing Async Proc', () => {
         const proc = groupAsyncHandlers([proc1, proc2]);
         proc.error(result => {
             expect(result).toBe('fail');
+        });
+        proc.end(() => {
+            jestDone();
+        });
+    });
+
+    it('create convertPromise with success', (jestDone) => {
+        const proc = convertPromise(Promise.resolve('promise-success'));
+        proc.done(result => {
+            expect(result).toEqual('promise-success');
+        });
+        proc.end(() => {
+            jestDone();
+        });
+    });
+
+    it('create convertPromise with fail', (jestDone) => {
+        const proc = convertPromise(Promise.reject('promise-fail'));
+        proc.error(result => {
+            expect(result).toEqual('promise-fail');
         });
         proc.end(() => {
             jestDone();

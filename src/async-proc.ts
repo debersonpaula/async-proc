@@ -48,7 +48,7 @@ export class TAsyncProc {
         this._fnError && this._fnError();
         return this;
     }
-    
+
     private _done(data: any) {
         this._exec(this._hDone, data);
         this._exec(this._hEnd);
@@ -68,7 +68,7 @@ export class TAsyncProc {
             };
         }
     }
-    
+
     private _exec(list: Function[], data?: any) {
         list.forEach((item) => {
             item(data);
@@ -83,7 +83,7 @@ export function groupAsyncHandlers(list: TAsyncProc[]): TAsyncProc {
         const errorList: any[] = [];
         let counter: number = 0;
 
-        const exec = ()=>{
+        const exec = () => {
             if (counter == list.length) {
                 if (errorList.length) {
                     error(errorList[0]);
@@ -105,5 +105,13 @@ export function groupAsyncHandlers(list: TAsyncProc[]): TAsyncProc {
                 exec();
             });
         }
+    });
+}
+
+export function convertPromise(promiseObject: Promise<any>): TAsyncProc {
+    return new TAsyncProc((done, error) => {
+        promiseObject
+            .then(value => done(value))
+            .catch(reason => error(reason));
     });
 }
