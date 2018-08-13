@@ -1,11 +1,4 @@
-# async-proc
-
-Simple Async Procedure to handle async-based functions
-
-## Usage
-
-```js
-const asyncProc = require('async-proc');
+const asyncProc = require('./index');
 
 // create handler with done
 const h1 = new asyncProc.TAsyncProc((done, error) => {
@@ -26,4 +19,3 @@ const h3 = asyncProc.groupAsyncHandlers([h1, h2]);
 h1.done((value) => console.log('h1 done =', value));
 h2.error((err) => console.log('h2 error =', err));
 h3.end(() => console.log('h3 finished'));
-```

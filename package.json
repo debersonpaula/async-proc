@@ -1,9 +1,11 @@
 {
   "name": "async-proc",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Async Handler Procedure",
-  "main": "index.js",
+  "main": "bin/index.js",
   "scripts": {
+    "build": "tsc -d",
+    "test": "jest"
   },
   "keywords": [
     "async",
@@ -11,5 +13,24 @@
     "handler"
   ],
   "author": "D.A.Paula",
-  "license": "MIT"
+  "license": "MIT",
+  "devDependencies": {
+    "@types/jest": "^23.3.0",
+    "@types/node": "^10.5.2",
+    "jest": "^23.4.1",
+    "ts-jest": "^23.0.1",
+    "typescript": "^2.9.2"
+  },
+  "bin": {
+    "async-proc": "index.js"
+  },
+  "dependencies": {},
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/debersonpaula/async-proc.git"
+  },
+  "bugs": {
+    "url": "https://github.com/debersonpaula/async-proc/issues"
+  },
+  "homepage": "https://github.com/debersonpaula/async-proc#readme"
 }

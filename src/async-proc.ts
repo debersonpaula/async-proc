@@ -44,7 +44,8 @@ export class TAsyncProc {
      */
     end(callback: AsyncEnd): TAsyncProc {
         this._hEnd.push(callback);
-        this._fnDone && this._fnDone() && this._fnError && this._fnError();
+        this._fnDone && this._fnDone();
+        this._fnError && this._fnError();
         return this;
     }
     

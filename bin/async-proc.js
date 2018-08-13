@@ -35,7 +35,8 @@ var TAsyncProc = /** @class */ (function () {
      */
     TAsyncProc.prototype.end = function (callback) {
         this._hEnd.push(callback);
-        this._fnDone && this._fnDone() && this._fnError && this._fnError();
+        this._fnDone && this._fnDone();
+        this._fnError && this._fnError();
         return this;
     };
     TAsyncProc.prototype._done = function (data) {
