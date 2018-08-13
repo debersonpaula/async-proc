@@ -68,6 +68,10 @@ var TAsyncProc = /** @class */ (function () {
     return TAsyncProc;
 }());
 exports.TAsyncProc = TAsyncProc;
+/**
+ * Create AsyncProc from array (like Promise.all)
+ * @param list array of AsyncProcs
+ */
 function groupAsyncHandlers(list) {
     return new TAsyncProc(function (done, error) {
         var doneList = [];
@@ -100,3 +104,35 @@ function groupAsyncHandlers(list) {
     });
 }
 exports.groupAsyncHandlers = groupAsyncHandlers;
+/**
+ * Convert Promise object to AsyncProc
+ * @param promiseObject
+ */
+function convertPromise(promiseObject) {
+    return new TAsyncProc(function (done, error) {
+        promiseObject
+            .then(function (value) { return done(value); })
+            .catch(function (reason) { return error(reason); });
+    });
+}
+exports.convertPromise = convertPromise;
+/**
+ * Create AsyncProc with Done status
+ * @param result object to be result of done
+ */
+function createDone(result) {
+    return new TAsyncProc(function (done, error) {
+        done(result);
+    });
+}
+exports.createDone = createDone;
+/**
+ * Create AsyncProc with Error status
+ * @param result object to be result of error
+ */
+function createError(result) {
+    return new TAsyncProc(function (done, error) {
+        error(result);
+    });
+}
+exports.createError = createError;

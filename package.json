@@ -1,6 +1,6 @@
 {
   "name": "async-proc",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Async Handler Procedure",
   "main": "bin/index.js",
   "scripts": {

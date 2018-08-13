@@ -27,3 +27,35 @@ h1.done((value) => console.log('h1 done =', value));
 h2.error((err) => console.log('h2 error =', err));
 h3.end(() => console.log('h3 finished'));
 ```
+
+## Converting Promises
+
+```js
+// convert Promise to AsyncProc with success
+const p1 = asyncProc.convertPromise(Promise.resolve('promise-success'));
+p1.done(result => {
+    console.log('convertPromise =', result);
+});
+
+// convert Promise to AsyncProc with fail
+const p2 = asyncProc.convertPromise(Promise.reject('promise-fail'));
+p2.error(result => {
+    console.log('convertPromise =', result);
+});
+```
+
+## Using helpers
+
+```js
+// create AsyncProc with Done
+const procDone = asyncProc.createDone('done created');
+procDone.done(result => {
+    console.log('createDone =', result);
+});
+
+// create AsyncProc with Error
+const procError = asyncProc.createError('error created');
+procError.error(result => {
+    console.log('createError =', result);
+});
+```

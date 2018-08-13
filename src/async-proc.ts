@@ -77,6 +77,10 @@ export class TAsyncProc {
     }
 }
 
+/**
+ * Create AsyncProc from array (like Promise.all)
+ * @param list array of AsyncProcs
+ */
 export function groupAsyncHandlers(list: TAsyncProc[]): TAsyncProc {
     return new TAsyncProc((done, error) => {
         const doneList: any[] = [];
@@ -108,10 +112,34 @@ export function groupAsyncHandlers(list: TAsyncProc[]): TAsyncProc {
     });
 }
 
+/**
+ * Convert Promise object to AsyncProc
+ * @param promiseObject 
+ */
 export function convertPromise(promiseObject: Promise<any>): TAsyncProc {
     return new TAsyncProc((done, error) => {
         promiseObject
             .then(value => done(value))
             .catch(reason => error(reason));
+    });
+}
+
+/**
+ * Create AsyncProc with Done status
+ * @param result object to be result of done
+ */
+export function createDone(result: any) {
+    return new TAsyncProc((done, error) => {
+        done(result);
+    });
+}
+
+/**
+ * Create AsyncProc with Error status
+ * @param result object to be result of error
+ */
+export function createError(result: any) {
+    return new TAsyncProc((done, error) => {
+        error(result);
     });
 }

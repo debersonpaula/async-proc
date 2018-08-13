@@ -32,5 +32,24 @@ export declare class TAsyncProc {
     private _error;
     private _exec;
 }
+/**
+ * Create AsyncProc from array (like Promise.all)
+ * @param list array of AsyncProcs
+ */
 export declare function groupAsyncHandlers(list: TAsyncProc[]): TAsyncProc;
+/**
+ * Convert Promise object to AsyncProc
+ * @param promiseObject
+ */
+export declare function convertPromise(promiseObject: Promise<any>): TAsyncProc;
+/**
+ * Create AsyncProc with Done status
+ * @param result object to be result of done
+ */
+export declare function createDone(result: any): TAsyncProc;
+/**
+ * Create AsyncProc with Error status
+ * @param result object to be result of error
+ */
+export declare function createError(result: any): TAsyncProc;
 export {};
